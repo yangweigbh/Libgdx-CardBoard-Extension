@@ -1,0 +1,65 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
+  <modelVersion>4.0.0</modelVersion>
+  <parent>
+    <groupId>com.yangwei</groupId>
+    <artifactId>libgdx-cardboard</artifactId>
+    <version>1.0.6.1-SNAPSHOT</version>
+    <relativePath>../pom.xml</relativePath>
+  </parent>
+
+    <groupId>com.yagnwei</groupId>
+    <artifactId>libgdx-cardboard-demo</artifactId>
+    <version>1.0.0-SNAPSHOT</version>
+    <packaging>apk</packaging>
+    <name>libgdx cardboard demo</name>
+
+    <dependencies>
+        <dependency>
+            <groupId>com.google.android</groupId>
+            <artifactId>android</artifactId>
+            <version>4.1.1.4</version>
+            <scope>provided</scope>
+        </dependency>
+        <dependency>
+          <groupId>com.badlogicgames.gdx</groupId>
+          <artifactId>gdx-backend-android</artifactId>
+          <version>${gdx.version}</version>
+        </dependency>
+        <dependency>
+          <groupId>com.badlogicgames.gdx</groupId>
+          <artifactId>gdx</artifactId>
+          <version>${gdx.version}</version>
+        </dependency>
+    </dependencies>
+    <build>
+        <finalName>${project.artifactId}</finalName>
+        <sourceDirectory>src</sourceDirectory>
+        <pluginManagement>
+            <plugins>
+                <plugin>
+                    <groupId>com.jayway.maven.plugins.android.generation2</groupId>
+                    <artifactId>android-maven-plugin</artifactId>
+                    <version>4.0.0-rc.2</version>
+                    <extensions>true</extensions>
+                </plugin>
+            </plugins>
+        </pluginManagement>
+        <plugins>
+            <plugin>
+                <groupId>com.jayway.maven.plugins.android.generation2</groupId>
+                <artifactId>android-maven-plugin</artifactId>
+                <configuration>
+                    <sdk>
+                        <!-- platform or api level (api level 16 = platform 4.1)-->
+                        <platform>20</platform>
+                    </sdk>
+                    <androidManifestFile>${project.basedir}/AndroidManifest.xml</androidManifestFile>
+                    <assetsDirectory>${project.basedir}/assets</assetsDirectory>
+                    <nativeLibrariesDirectory>${project.basedir}/libs</nativeLibrariesDirectory>
+                    <resourceDirectory>${project.basedir}/res</resourceDirectory>
+                </configuration>
+            </plugin>
+        </plugins>
+    </build>
+</project>

@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<classpath>
+	<classpathentry kind="src" path="src"/>
+	<classpathentry kind="con" path="org.eclipse.jdt.launching.JRE_CONTAINER/org.eclipse.jdt.internal.debug.ui.launcher.StandardVMType/JavaSE-1.7"/>
+	<classpathentry combineaccessrules="false" kind="src" path="/gdx-backend-android"/>
+	<classpathentry exported="true" kind="lib" path="/Users/yangwei/Documents/workspace/libgdx-extension-cardboard/libgdx-cardboard/libs/android-4.4.jar"/>
+	<classpathentry exported="true" kind="lib" path="/Users/yangwei/Documents/workspace/libgdx-extension-cardboard/libgdx-cardboard/libs/cardboard.jar"/>
+	<classpathentry exported="true" kind="lib" path="/Users/yangwei/Documents/workspace/libgdx-extension-cardboard/libgdx-cardboard/libs/libprotobuf-java-2.6-nano.jar"/>
+	<classpathentry kind="output" path="bin"/>
+</classpath>

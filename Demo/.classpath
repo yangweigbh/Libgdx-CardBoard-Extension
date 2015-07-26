@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<classpath>
+	<classpathentry kind="src" path="src"/>
+	<classpathentry kind="src" path="gen"/>
+	<classpathentry kind="con" path="com.android.ide.eclipse.adt.ANDROID_FRAMEWORK"/>
+	<classpathentry exported="true" kind="con" path="com.android.ide.eclipse.adt.LIBRARIES"/>
+	<classpathentry exported="true" kind="con" path="com.android.ide.eclipse.adt.DEPENDENCIES"/>
+	<classpathentry combineaccessrules="false" exported="true" kind="src" path="/gdx"/>
+	<classpathentry combineaccessrules="false" exported="true" kind="src" path="/gdx-backend-android"/>
+	<classpathentry combineaccessrules="false" exported="true" kind="src" path="/libgdx-extension-cardboard"/>
+	<classpathentry exported="true" kind="lib" path="/Users/yangwei/Documents/workspace/libgdx-extension-cardboard/Demo/libs/cardboard.jar"/>
+	<classpathentry exported="true" kind="lib" path="/Users/yangwei/Documents/workspace/libgdx-extension-cardboard/Demo/libs/libprotobuf-java-2.6-nano.jar"/>
+	<classpathentry kind="output" path="bin/classes"/>
+</classpath>

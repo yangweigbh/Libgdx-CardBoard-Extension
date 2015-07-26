@@ -1,0 +1,9 @@
+# cache for current jar dependency. DO NOT EDIT.
+# format is <lastModified> <length> <SHA-1> <path>
+# Encoding is UTF-8
+1432914515000 44474 2ba3ce68542db5a4b672a22606e4fd4631ed5c4f /Users/yangwei/Documents/workspace/libgdx-extension-cardboard/Demo/libs/libprotobuf-java-2.6-nano.jar
+1432914515000 44474 2ba3ce68542db5a4b672a22606e4fd4631ed5c4f /Users/yangwei/Documents/workspace/libgdx-extension-cardboard/libs/libprotobuf-java-2.6-nano.jar
+1432914515000 44474 2ba3ce68542db5a4b672a22606e4fd4631ed5c4f /Users/yangwei/code/libgdx/backends/gdx-backend-android/libs/libprotobuf-java-2.6-nano.jar
+1437910191000 183601 538c01b92c8e1818421d7a79c5d777cf2c8f8c53 /Users/yangwei/Documents/workspace/libgdx-extension-cardboard/Demo/libs/cardboard.jar
+1437910191000 183601 538c01b92c8e1818421d7a79c5d777cf2c8f8c53 /Users/yangwei/Documents/workspace/libgdx-extension-cardboard/libs/cardboard.jar
+1437910191000 183601 538c01b92c8e1818421d7a79c5d777cf2c8f8c53 /Users/yangwei/code/libgdx/backends/gdx-backend-android/libs/cardboard.jar

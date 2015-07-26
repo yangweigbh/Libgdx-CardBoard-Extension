@@ -1,0 +1,78 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
+  <modelVersion>4.0.0</modelVersion>
+  <parent>
+    <groupId>com.yangwei</groupId>
+    <artifactId>libgdx-cardboard</artifactId>
+    <version>1.0.6.1-SNAPSHOT</version>
+    <relativePath>../pom.xml</relativePath>
+  </parent>
+
+  <groupId>com.yangwei</groupId>
+  <artifactId>libgdx-cardboard-core</artifactId>
+  <packaging>jar</packaging>
+  <name>libGDX cardboard</name>
+
+  <dependencies>
+    <dependency>
+      <groupId>com.badlogicgames.gdx</groupId>
+      <artifactId>gdx-backend-android</artifactId>
+      <version>${gdx.version}</version>
+    </dependency>
+    <dependency>
+      <groupId>com.google.android</groupId>
+      <artifactId>android</artifactId>
+      <version>${android.version}</version>
+      <scope>system</scope>
+      <systemPath>${basedir}/libs/android-4.4.jar</systemPath>
+      <optional>true</optional>
+    </dependency>
+    <dependency>
+      <groupId>com.google.android</groupId>
+      <artifactId>cardboard</artifactId>
+      <version>${android.version}</version>
+      <scope>system</scope>
+      <systemPath>${basedir}/libs/cardboard.jar</systemPath>
+    </dependency>
+    <dependency>
+      <groupId>com.google.android</groupId>
+      <artifactId>libprotobuf</artifactId>
+      <version>${android.version}</version>
+      <scope>system</scope>
+      <systemPath>${basedir}/libs/libprotobuf-java-2.6-nano.jar</systemPath>
+    </dependency>
+  </dependencies>
+
+  <build>
+    <sourceDirectory>src</sourceDirectory>
+    <testSourceDirectory>test</testSourceDirectory>
+
+    <plugins>
+      <plugin>
+        <groupId>org.apache.maven.plugins</groupId>
+        <artifactId>maven-source-plugin</artifactId>
+        <executions>
+          <execution>
+            <id>attach-sources</id>
+            <phase>generate-resources</phase>
+            <goals>
+              <goal>jar-no-fork</goal>
+            </goals>
+          </execution>
+        </executions>
+      </plugin>
+    </plugins>
+
+    <resources>
+      <resource>
+        <directory>res</directory>
+        <includes>
+          <include>**/*</include>
+        </includes>
+        <excludes>
+          <exclude>**/*.java</exclude>
+        </excludes>
+      </resource>
+    </resources>
+  </build>
+</project>
