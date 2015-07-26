@@ -20,6 +20,11 @@
       <version>${gdx.version}</version>
     </dependency>
     <dependency>
+      <groupId>com.badlogicgames.gdx</groupId>
+      <artifactId>gdx</artifactId>
+      <version>${gdx.version}</version>
+    </dependency>
+    <dependency>
       <groupId>com.google.android</groupId>
       <artifactId>android</artifactId>
       <version>${android.version}</version>

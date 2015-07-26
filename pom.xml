@@ -4,18 +4,19 @@
 	<modelVersion>4.0.0</modelVersion>
 	<groupId>com.yangwei</groupId>
 	<artifactId>libgdx-cardboard</artifactId>
-	<version>1.0.6.1-SNAPSHOT</version>
+	<version>0.1-SNAPSHOT</version>
 	<packaging>pom</packaging>
 	<name>libgdx cardboard extension</name>
 
 	<properties>
 		<gdx.version>1.5.4</gdx.version>
+		<android.version>4.4</android.version>
 		<project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
 	</properties>
 	
 	<modules>
-		<module>libgdx-cardboard-core<</module>
-		<module>libgdx-cardboard-demo</module>
+		<module>libgdx-cardboard</module>
+		<module>Demo</module>
 	</modules>
 
 	<repositories>

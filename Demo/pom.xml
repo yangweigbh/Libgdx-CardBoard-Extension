@@ -10,7 +10,6 @@
 
     <groupId>com.yagnwei</groupId>
     <artifactId>libgdx-cardboard-demo</artifactId>
-    <version>1.0.0-SNAPSHOT</version>
     <packaging>apk</packaging>
     <name>libgdx cardboard demo</name>
 
@@ -25,6 +24,11 @@
           <groupId>com.badlogicgames.gdx</groupId>
           <artifactId>gdx-backend-android</artifactId>
           <version>${gdx.version}</version>
+        </dependency>
+        <dependency>
+          <groupId>com.yangwei</groupId>
+          <artifactId>libgdx-cardboard-core</artifactId>
+          <version>${project.version}</version>
         </dependency>
         <dependency>
           <groupId>com.badlogicgames.gdx</groupId>
@@ -51,6 +55,7 @@
                 <artifactId>android-maven-plugin</artifactId>
                 <configuration>
                     <sdk>
+                        <path>/Users/yangwei/adt-bundle-mac-x86_64-20140702/sdk</path>
                         <!-- platform or api level (api level 16 = platform 4.1)-->
                         <platform>20</platform>
                     </sdk>
