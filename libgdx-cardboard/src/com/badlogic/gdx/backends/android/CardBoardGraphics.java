@@ -513,7 +513,7 @@ public class CardBoardGraphics implements Graphics, CardboardView.StereoRenderer
 
    @Override
    public void onDrawEye (Eye arg0) {
-      if (!((CardBoardApplicationListener)app.getApplicationListener() instanceof CardBoardApplicationListener)) {
+      if (!(app.getApplicationListener() instanceof CardBoardApplicationListener)) {
          throw new RuntimeException("should implement CardBoardApplicationListener");
       }
       if (!disposed) {
@@ -524,7 +524,7 @@ public class CardBoardGraphics implements Graphics, CardboardView.StereoRenderer
 
    @Override
    public void onFinishFrame (Viewport arg0) {
-      if (!((CardBoardApplicationListener)app.getApplicationListener() instanceof CardBoardApplicationListener)) {
+      if (!(app.getApplicationListener() instanceof CardBoardApplicationListener)) {
          throw new RuntimeException("should implement CardBoardApplicationListener");
       }
       if (!disposed) {
@@ -631,7 +631,7 @@ public class CardBoardGraphics implements Graphics, CardboardView.StereoRenderer
          frameStart = time;
       }
       frames++;
-      if (!((CardBoardApplicationListener)app.getApplicationListener() instanceof CardBoardApplicationListener)) {
+      if (!(app.getApplicationListener() instanceof CardBoardApplicationListener)) {
          throw new RuntimeException("should implement CardBoardApplicationListener");
       }
       if (!disposed) {
@@ -642,7 +642,7 @@ public class CardBoardGraphics implements Graphics, CardboardView.StereoRenderer
 
    @Override
    public void onRendererShutdown () {
-      if (!((CardBoardApplicationListener)app.getApplicationListener() instanceof CardBoardApplicationListener)) {
+      if (!(app.getApplicationListener() instanceof CardBoardApplicationListener)) {
          throw new RuntimeException("should implement CardBoardApplicationListener");
       }
       ((CardBoardApplicationListener)app.getApplicationListener()).onRendererShutdown();

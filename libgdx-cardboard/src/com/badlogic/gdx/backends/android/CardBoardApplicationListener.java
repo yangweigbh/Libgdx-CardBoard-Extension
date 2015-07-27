@@ -7,11 +7,13 @@ import com.google.vrtoolkit.cardboard.Viewport;
 
 public interface CardBoardApplicationListener extends ApplicationListener{
 
-   public abstract void onNewFrame(HeadTransform paramHeadTransform);
+   public void onNewFrame(HeadTransform paramHeadTransform);
 
-   public abstract void onDrawEye(Eye paramEye);
+   public void onDrawEye(Eye paramEye);
 
-   public abstract void onFinishFrame(Viewport paramViewport);
+   public void onFinishFrame(Viewport paramViewport);
 
-   public abstract void onRendererShutdown();
+   public void onRendererShutdown();
+
+   public void onCardboardTrigger();
 }

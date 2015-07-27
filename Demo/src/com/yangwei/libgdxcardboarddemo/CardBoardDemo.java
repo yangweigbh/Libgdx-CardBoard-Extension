@@ -131,4 +131,9 @@ public class CardBoardDemo extends CardBoardAndroidApplication implements CardBo
     public void onRendererShutdown() {
 
     }
+
+    @Override
+    public void onCardboardTrigger() {
+
+    }
 }

@@ -190,6 +190,14 @@ public class CardBoardAndroidApplication extends CardboardActivity implements An
       }
    }
 
+   @Override
+    public void onCardboardTrigger() {
+       if (!(listener instanceof CardBoardApplicationListener)) {
+           throw new RuntimeException("should implement CardBoardApplicationListener");
+        }
+        ((CardBoardApplicationListener)listener).onCardboardTrigger();
+    }
+
    protected FrameLayout.LayoutParams createLayoutParams () {
       FrameLayout.LayoutParams layoutParams = new FrameLayout.LayoutParams(android.view.ViewGroup.LayoutParams.MATCH_PARENT,
          android.view.ViewGroup.LayoutParams.MATCH_PARENT);
