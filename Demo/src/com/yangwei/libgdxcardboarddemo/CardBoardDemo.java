@@ -104,10 +104,10 @@ public class CardBoardDemo extends CardBoardAndroidApplication implements CardBo
         Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT | GL20.GL_DEPTH_BUFFER_BIT);
 
         // Apply the eye transformation to the camera.
-        cam.view.set(cam.getViewMatrix().mulLeft(new Matrix4(eye.getEyeView())));
+        cam.setEyeViewAdjustMatrix(new Matrix4(eye.getEyeView()));
 
         float[] perspective = eye.getPerspective(Z_NEAR, Z_FAR);
-        cam.projection.set(perspective);
+        cam.setEyeProjection(new Matrix4(perspective));
         cam.update();
 
         batch.begin(cam);
