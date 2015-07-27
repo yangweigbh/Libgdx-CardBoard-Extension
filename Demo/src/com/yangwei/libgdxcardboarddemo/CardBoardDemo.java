@@ -18,8 +18,6 @@ import com.badlogic.gdx.graphics.g3d.ModelInstance;
 import com.badlogic.gdx.graphics.g3d.attributes.ColorAttribute;
 import com.badlogic.gdx.graphics.g3d.environment.DirectionalLight;
 import com.badlogic.gdx.graphics.g3d.utils.ModelBuilder;
-import com.badlogic.gdx.graphics.glutils.ShapeRenderer;
-import com.badlogic.gdx.graphics.glutils.ShapeRenderer.ShapeType;
 import com.badlogic.gdx.math.Matrix4;
 import com.google.vrtoolkit.cardboard.Eye;
 import com.google.vrtoolkit.cardboard.HeadTransform;
@@ -32,7 +30,6 @@ public class CardBoardDemo extends CardBoardAndroidApplication implements CardBo
     private ModelInstance instance;
     private ModelBatch batch;
     private Environment environment;
-    private ShapeRenderer shapeRenderer;
     private static final float Z_NEAR = 0.1f;
     private static final float Z_FAR = 1000.0f;
     private static final float CAMERA_Z = 0.01f;
@@ -64,8 +61,6 @@ public class CardBoardDemo extends CardBoardAndroidApplication implements CardBo
         instance.transform.translate(0, 0, -50);
 
         batch = new ModelBatch();
-
-        shapeRenderer = new ShapeRenderer();
     }
 
     @Override
@@ -90,7 +85,6 @@ public class CardBoardDemo extends CardBoardAndroidApplication implements CardBo
     public void dispose() {
         batch.dispose();
         model.dispose();
-        shapeRenderer.dispose();
     }
 
     @Override
@@ -113,13 +107,6 @@ public class CardBoardDemo extends CardBoardAndroidApplication implements CardBo
         batch.begin(cam);
         batch.render(instance, environment);
         batch.end();
-
-        shapeRenderer.setProjectionMatrix(cam.combined);
-        shapeRenderer.begin(ShapeType.Line);
-        shapeRenderer.setColor(1, 0, 0, 1);
-        shapeRenderer.rect(0, 0, 10, 10);
-        shapeRenderer.translate(10, 0, -10);
-        shapeRenderer.end();
     }
 
     @Override
