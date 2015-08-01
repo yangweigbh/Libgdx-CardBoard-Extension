@@ -1,8 +1,22 @@
+/*******************************************************************************
+ * Copyright 2015 wei yang(yangweigbh@hotmail.com)
+ *
+ * Licensed under the Apache License, Version 2.0 (the "License");
+ * you may not use this file except in compliance with the License.
+ * You may obtain a copy of the License at
+ *
+ *   http://www.apache.org/licenses/LICENSE-2.0
+ *
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an "AS IS" BASIS,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * See the License for the specific language governing permissions and
+ * limitations under the License.
+ ******************************************************************************/
+
 package com.badlogic.gdx.backends.android;
 
 import java.lang.reflect.Method;
-
-import javax.microedition.khronos.egl.EGLConfig;
 
 import android.annotation.TargetApi;
 import android.app.Activity;
@@ -28,17 +42,6 @@ import com.badlogic.gdx.Graphics;
 import com.badlogic.gdx.LifecycleListener;
 import com.badlogic.gdx.Net;
 import com.badlogic.gdx.Preferences;
-import com.badlogic.gdx.Application.ApplicationType;
-import com.badlogic.gdx.backends.android.AndroidApplicationBase;
-import com.badlogic.gdx.backends.android.AndroidApplicationConfiguration;
-import com.badlogic.gdx.backends.android.AndroidAudio;
-import com.badlogic.gdx.backends.android.AndroidClipboard;
-import com.badlogic.gdx.backends.android.AndroidEventListener;
-import com.badlogic.gdx.backends.android.AndroidFiles;
-import com.badlogic.gdx.backends.android.AndroidInput;
-import com.badlogic.gdx.backends.android.AndroidInputFactory;
-import com.badlogic.gdx.backends.android.AndroidNet;
-import com.badlogic.gdx.backends.android.AndroidPreferences;
 import com.badlogic.gdx.backends.android.surfaceview.FillResolutionStrategy;
 import com.badlogic.gdx.utils.Array;
 import com.badlogic.gdx.utils.Clipboard;
@@ -46,9 +49,6 @@ import com.badlogic.gdx.utils.GdxNativesLoader;
 import com.badlogic.gdx.utils.GdxRuntimeException;
 import com.google.vrtoolkit.cardboard.CardboardActivity;
 import com.google.vrtoolkit.cardboard.CardboardView;
-import com.google.vrtoolkit.cardboard.Eye;
-import com.google.vrtoolkit.cardboard.HeadTransform;
-import com.google.vrtoolkit.cardboard.Viewport;
 
 public class CardBoardAndroidApplication extends CardboardActivity implements AndroidApplicationBase {
 
