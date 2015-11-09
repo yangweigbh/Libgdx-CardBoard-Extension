@@ -4,14 +4,16 @@
   <parent>
     <groupId>com.yangwei</groupId>
     <artifactId>libgdx-cardboard</artifactId>
-    <version>1.0.6.1-SNAPSHOT</version>
+    <version>0.2</version>
     <relativePath>../pom.xml</relativePath>
   </parent>
 
   <groupId>com.yangwei</groupId>
   <artifactId>libgdx-cardboard-core</artifactId>
   <packaging>jar</packaging>
-  <name>libGDX cardboard</name>
+  <name>${project.groupId}:${project.artifactId}</name>
+  <description>library help developing cardboard app based on libgdx</description>
+  <url>https://github.com/yangweigbh/Libgdx-CardBoard-Extension</url>
 
   <dependencies>
     <dependency>
@@ -40,11 +42,9 @@
       <systemPath>${basedir}/libs/cardboard.jar</systemPath>
     </dependency>
     <dependency>
-      <groupId>com.google.android</groupId>
-      <artifactId>libprotobuf</artifactId>
-      <version>${android.version}</version>
-      <scope>system</scope>
-      <systemPath>${basedir}/libs/libprotobuf-java-2.6-nano.jar</systemPath>
+        <groupId>com.google.protobuf</groupId>
+        <artifactId>protobuf-java</artifactId>
+        <version>2.6.1</version>
     </dependency>
   </dependencies>
 
@@ -66,18 +66,20 @@
           </execution>
         </executions>
       </plugin>
+      <plugin>
+          <groupId>org.apache.maven.plugins</groupId>
+          <artifactId>maven-javadoc-plugin</artifactId>
+          <version>2.9</version>
+          <executions>
+              <execution>
+                  <id>attach-javadocs</id>
+                  <phase>generate-resources</phase>
+                  <goals>
+                      <goal>jar</goal>
+                  </goals>
+              </execution>
+          </executions>
+      </plugin>
     </plugins>
-
-    <resources>
-      <resource>
-        <directory>res</directory>
-        <includes>
-          <include>**/*</include>
-        </includes>
-        <excludes>
-          <exclude>**/*.java</exclude>
-        </excludes>
-      </resource>
-    </resources>
   </build>
 </project>

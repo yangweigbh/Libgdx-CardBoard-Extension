@@ -4,7 +4,7 @@
 	<modelVersion>4.0.0</modelVersion>
 	<groupId>com.yangwei</groupId>
 	<artifactId>libgdx-cardboard</artifactId>
-	<version>0.1-SNAPSHOT</version>
+	<version>0.2</version>
 	<packaging>pom</packaging>
 	<name>libgdx cardboard extension</name>
 
@@ -19,12 +19,34 @@
 		<module>Demo</module>
 	</modules>
 
-	<repositories>
-    <repository>
-      <id>gdx-nightlies</id>
-      <url>https://oss.sonatype.org/content/repositories/releases/</url>
-    </repository>
-  </repositories>
+	<licenses>
+      <license>
+          <name>The Apache Software License, Version 2.0</name>
+          <url>http://www.apache.org/licenses/LICENSE-2.0.txt</url>
+          <distribution>repo</distribution>
+      </license>
+    </licenses>
+
+    <developers>
+	    <developer>
+	      <name>Wei Yang</name>
+	      <email>yangweigbh@hotmail.com</email>
+	      <organizationUrl>https://github.com/yangweigbh</organizationUrl>
+        </developer>
+    </developers>
+
+    <scm>
+      <connection>scm:git:https://github.com/yangweigbh/Libgdx-CardBoard-Extension.git</connection>
+      <developerConnection>scm:git:https://github.com/yangweigbh</developerConnection>
+      <url>https://github.com/yangweigbh/Libgdx-CardBoard-Extension.git</url>
+	</scm>
+
+    <repositories>
+        <repository>
+            <id>gdx-nightlies</id>
+            <url>https://oss.sonatype.org/content/repositories/releases/</url>
+        </repository>
+    </repositories>
 
 	<build>
 		<plugins>

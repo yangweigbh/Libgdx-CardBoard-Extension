@@ -1,0 +1,2 @@
+include ":libgdx-cardboard-core"
+include ":Demo"
