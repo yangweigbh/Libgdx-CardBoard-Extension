@@ -1,35 +1,52 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
   <modelVersion>4.0.0</modelVersion>
-  <parent>
-    <groupId>com.yangwei</groupId>
-    <artifactId>libgdx-cardboard</artifactId>
-    <version>0.2</version>
-    <relativePath>../pom.xml</relativePath>
-  </parent>
 
-  <groupId>com.yangwei</groupId>
+  <groupId>com.github.yangweigbh</groupId>
   <artifactId>libgdx-cardboard-core</artifactId>
   <packaging>jar</packaging>
+  <version>0.2</version>
   <name>${project.groupId}:${project.artifactId}</name>
   <description>library help developing cardboard app based on libgdx</description>
   <url>https://github.com/yangweigbh/Libgdx-CardBoard-Extension</url>
+
+  <licenses>
+    <license>
+        <name>The Apache Software License, Version 2.0</name>
+        <url>http://www.apache.org/licenses/LICENSE-2.0.txt</url>
+        <distribution>repo</distribution>
+    </license>
+  </licenses>
+
+  <developers>
+    <developer>
+      <name>Wei Yang</name>
+      <email>yangweigbh@hotmail.com</email>
+      <organizationUrl>https://github.com/yangweigbh</organizationUrl>
+      </developer>
+  </developers>
+
+  <scm>
+    <connection>scm:git:https://github.com/yangweigbh/Libgdx-CardBoard-Extension.git</connection>
+    <developerConnection>scm:git:https://github.com/yangweigbh</developerConnection>
+    <url>https://github.com/yangweigbh/Libgdx-CardBoard-Extension.git</url>
+  </scm>
 
   <dependencies>
     <dependency>
       <groupId>com.badlogicgames.gdx</groupId>
       <artifactId>gdx-backend-android</artifactId>
-      <version>${gdx.version}</version>
+      <version>1.5.4</version>
     </dependency>
     <dependency>
       <groupId>com.badlogicgames.gdx</groupId>
       <artifactId>gdx</artifactId>
-      <version>${gdx.version}</version>
+      <version>1.5.4</version>
     </dependency>
     <dependency>
       <groupId>com.google.android</groupId>
       <artifactId>android</artifactId>
-      <version>${android.version}</version>
+      <version>4.4</version>
       <scope>system</scope>
       <systemPath>${basedir}/libs/android-4.4.jar</systemPath>
       <optional>true</optional>
@@ -37,7 +54,7 @@
     <dependency>
       <groupId>com.google.android</groupId>
       <artifactId>cardboard</artifactId>
-      <version>${android.version}</version>
+      <version>1.0</version>
       <scope>system</scope>
       <systemPath>${basedir}/libs/cardboard.jar</systemPath>
     </dependency>

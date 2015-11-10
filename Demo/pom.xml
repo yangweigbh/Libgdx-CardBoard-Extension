@@ -8,7 +8,7 @@
     <relativePath>../pom.xml</relativePath>
   </parent>
 
-    <groupId>com.yagnwei</groupId>
+    <groupId>com.github.yangweigbh</groupId>
     <artifactId>libgdx-cardboard-demo</artifactId>
     <packaging>apk</packaging>
     <name>libgdx cardboard demo</name>
@@ -34,6 +34,13 @@
           <groupId>com.badlogicgames.gdx</groupId>
           <artifactId>gdx</artifactId>
           <version>${gdx.version}</version>
+        </dependency>
+        <dependency>
+          <groupId>com.google.android</groupId>
+          <artifactId>cardboard</artifactId>
+          <version>1.0</version>
+          <scope>system</scope>
+          <systemPath>${basedir}/libs/cardboard.jar</systemPath>
         </dependency>
     </dependencies>
     <build>

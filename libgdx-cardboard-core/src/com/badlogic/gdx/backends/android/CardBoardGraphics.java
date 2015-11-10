@@ -123,29 +123,6 @@ public class CardBoardGraphics implements Graphics, CardboardView.StereoRenderer
       }
    }
 
-//   protected View createGLSurfaceView (AndroidApplicationBase application, final ResolutionStrategy resolutionStrategy) {
-//      if (!checkGL20()) throw new GdxRuntimeException("Libgdx requires OpenGL ES 2.0");
-//
-//      EGLConfigChooser configChooser = getEglConfigChooser();
-//      int sdkVersion = android.os.Build.VERSION.SDK_INT;
-//      if (sdkVersion <= 10 && config.useGLSurfaceView20API18) {
-//         GLSurfaceView20API18 view = new GLSurfaceView20API18(application.getContext(), resolutionStrategy);
-//         if (configChooser != null)
-//            view.setEGLConfigChooser(configChooser);
-//         else
-//            view.setEGLConfigChooser(config.r, config.g, config.b, config.a, config.depth, config.stencil);
-//         view.setRenderer(this);
-//         return view;
-//      } else {
-//         GLSurfaceView20 view = new GLSurfaceView20(application.getContext(), resolutionStrategy);
-//         if (configChooser != null)
-//            view.setEGLConfigChooser(configChooser);
-//         else
-//            view.setEGLConfigChooser(config.r, config.g, config.b, config.a, config.depth, config.stencil);
-//         view.setRenderer(this);
-//         return view;
-//      }
-//   }
    protected View createCardBoardView(AndroidApplicationBase application) {
       CardboardView cardboardView = new CardboardView(application.getContext());
       cardboardView.setRestoreGLStateEnabled(false);
@@ -528,29 +505,29 @@ public class CardBoardGraphics implements Graphics, CardboardView.StereoRenderer
    }
 
    @Override
-   public void onDrawEye (Eye arg0) {
+   public void onDrawEye (Eye eye) {
       if (!(app.getApplicationListener() instanceof CardBoardApplicationListener)) {
          throw new RuntimeException("should implement CardBoardApplicationListener");
       }
       if (!disposed) {
         ((CardBoardApplicationListener) app.getApplicationListener())
-                .onDrawEye(arg0);
+                .onDrawEye(eye);
     }
    }
 
    @Override
-   public void onFinishFrame (Viewport arg0) {
+   public void onFinishFrame (Viewport viewport) {
       if (!(app.getApplicationListener() instanceof CardBoardApplicationListener)) {
          throw new RuntimeException("should implement CardBoardApplicationListener");
       }
       if (!disposed) {
         ((CardBoardApplicationListener) app.getApplicationListener())
-                .onFinishFrame(arg0);
+                .onFinishFrame(viewport);
     }
    }
 
    @Override
-   public void onNewFrame (HeadTransform arg0) {
+   public void onNewFrame (HeadTransform headTransform) {
       long time = System.nanoTime();
       deltaTime = (time - lastFrameTime) / 1000000000.0f;
       lastFrameTime = time;
@@ -652,7 +629,7 @@ public class CardBoardGraphics implements Graphics, CardboardView.StereoRenderer
       }
       if (!disposed) {
         ((CardBoardApplicationListener) app.getApplicationListener())
-                .onNewFrame(arg0);
+                .onNewFrame(headTransform);
       }
    }
 

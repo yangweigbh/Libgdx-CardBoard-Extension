@@ -15,13 +15,19 @@ buildscript {
 allprojects {
     repositories {
         jcenter()
+        maven {
+	        url  "http://dl.bintray.com/yangweigbh/maven" 
+	    }
     }
 }
 
 project(":libgdx-cardboard-core") {
 	apply plugin: "java"
 	apply plugin: 'com.jfrog.bintray'
-	group = 'com.yangwei'
+	apply plugin: 'signing'
+	apply plugin: 'maven'
+
+	group = 'com.github.yangweigbh'
 	version = '0.2'
 
 	dependencies {
@@ -42,13 +48,43 @@ project(":libgdx-cardboard-core") {
 	    }
 	}
 
-	task copyPom(type: Copy) {
-	    from 'pom.xml'
-	    into "$buildDir/libs"
-	    rename 'pom.xml', "${project.name}-${version}.pom"
+	signing {
+	    sign configurations.archives
 	}
 
-	task sourcesJar(type: Jar, dependsOn: [classes, "copyPom"]) {
+	task generatePom << {
+	    pom {
+	        project {
+	            name 'libgdx-cardboard-core'
+		        packaging 'jar'
+		        // optionally artifactId can be defined here 
+		        description 'library help developing cardboard app based on libgdx'
+		        url 'https://github.com/yangweigbh/Libgdx-CardBoard-Extension'
+
+		        scm {
+		          connection 'scm:git:https://github.com/yangweigbh/Libgdx-CardBoard-Extension.git'
+		          developerConnection 'scm:git:https://github.com/yangweigbh'
+		          url 'https://github.com/yangweigbh/Libgdx-CardBoard-Extension.git'
+		        }
+
+		        licenses {
+		          license {
+		            name 'The Apache License, Version 2.0'
+		            url 'http://www.apache.org/licenses/LICENSE-2.0.txt'
+		          }
+		        }
+
+		        developers {
+		          developer {
+		            name 'Wei Yang'
+		            email 'yangweigbh@hotmail.com'
+		          }
+		        }
+	        }
+	    }.writeTo("$buildDir/libs/${project.name}-${version}.pom")
+	}
+
+	task sourcesJar(type: Jar, dependsOn: [classes, "generatePom"]) {
 	    classifier = 'sources'
 	    from sourceSets.main.allSource
 	}
@@ -73,7 +109,7 @@ project(":libgdx-cardboard-core") {
 	    configurations = ['archives']
 		pkg {
 			repo = 'maven'
-			name = 'com.yangwei:libgdx-cardboard-core'
+			name = 'libgdx-cardboard-core'
 			licenses = ['Apache-2.0']
 			vcsUrl = 'https://github.com/yangweigbh/Libgdx-CardBoard-Extension.git'
 			version {
@@ -118,8 +154,7 @@ project(":Demo") {
 	    compile "com.badlogicgames.gdx:gdx-backend-android:${gdxVersion}"
 	    compile "com.badlogicgames.gdx:gdx:${gdxVersion}"
 	    compile fileTree(dir: 'libs', include: ['*.jar'])
-	    compile 'com.google.protobuf:protobuf-java:2.6.1'
-	    compile project(":libgdx-cardboard-core")
+	    compile "com.github.yangweigbh:libgdx-cardboard-core:0.2"
 	}
 
 	tasks.withType(com.android.build.gradle.tasks.PackageApplication) { pkgTask ->
