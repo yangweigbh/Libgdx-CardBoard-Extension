@@ -1,5 +1,5 @@
 ext {
-     gdxVersion='1.5.4'
+     gdxVersion='1.7.1'
 }
 
 buildscript {
@@ -15,9 +15,6 @@ buildscript {
 allprojects {
     repositories {
         jcenter()
-        maven {
-	        url  "http://dl.bintray.com/yangweigbh/maven" 
-	    }
     }
 }
 
@@ -34,7 +31,6 @@ project(":libgdx-cardboard-core") {
 	    compile "com.badlogicgames.gdx:gdx-backend-android:${gdxVersion}"
 	    compile "com.badlogicgames.gdx:gdx:${gdxVersion}"
 	    compile fileTree(dir: 'libs', include: ['*.jar'])
-	    compile 'com.google.protobuf:protobuf-java:2.6.1'
 	}
 
 	sourceSets {
@@ -118,6 +114,50 @@ project(":libgdx-cardboard-core") {
 				vcsTag = '0.2.0'
 			}
 		}
+	}
+
+	uploadArchives {
+	  repositories {
+	    mavenDeployer {
+	      beforeDeployment { MavenDeployment deployment -> signing.signPom(deployment) }
+
+	      repository(url: "https://oss.sonatype.org/service/local/staging/deploy/maven2/") {
+	        authentication(userName: ossrhUsername, password: ossrhPassword)
+	      }
+
+	      snapshotRepository(url: "https://oss.sonatype.org/content/repositories/snapshots/") {
+	        authentication(userName: ossrhUsername, password: ossrhPassword)
+	      }
+
+	      pom.project {
+	            name 'libgdx-cardboard-core'
+		        packaging 'jar'
+		        // optionally artifactId can be defined here 
+		        description 'library help developing cardboard app based on libgdx'
+		        url 'https://github.com/yangweigbh/Libgdx-CardBoard-Extension'
+
+		        scm {
+		          connection 'scm:git:https://github.com/yangweigbh/Libgdx-CardBoard-Extension.git'
+		          developerConnection 'scm:git:https://github.com/yangweigbh'
+		          url 'https://github.com/yangweigbh/Libgdx-CardBoard-Extension.git'
+		        }
+
+		        licenses {
+		          license {
+		            name 'The Apache License, Version 2.0'
+		            url 'http://www.apache.org/licenses/LICENSE-2.0.txt'
+		          }
+		        }
+
+		        developers {
+		          developer {
+		            name 'Wei Yang'
+		            email 'yangweigbh@hotmail.com'
+		          }
+		        }
+		    }
+	    }
+	  }
 	}
 }
 

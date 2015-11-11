@@ -40,6 +40,7 @@ import com.badlogic.gdx.graphics.Cubemap;
 import com.badlogic.gdx.graphics.GL20;
 import com.badlogic.gdx.graphics.GL30;
 import com.badlogic.gdx.graphics.Mesh;
+import com.badlogic.gdx.graphics.Pixmap;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.glutils.FrameBuffer;
 import com.badlogic.gdx.graphics.glutils.ShaderProgram;
@@ -49,6 +50,7 @@ import com.google.vrtoolkit.cardboard.CardboardView;
 import com.google.vrtoolkit.cardboard.Eye;
 import com.google.vrtoolkit.cardboard.HeadTransform;
 import com.google.vrtoolkit.cardboard.Viewport;
+import com.badlogic.gdx.graphics.Cursor;
 
 public class CardBoardGraphics implements Graphics, CardboardView.StereoRenderer{
 
@@ -641,4 +643,14 @@ public class CardBoardGraphics implements Graphics, CardboardView.StereoRenderer
       ((CardBoardApplicationListener)app.getApplicationListener()).onRendererShutdown();
 
    }
+
+    @Override
+    public Cursor newCursor(Pixmap pixmap, int xHotspot, int yHotspot) {
+        return null;
+    }
+
+    @Override
+    public void setCursor(Cursor cursor) {
+
+    }
 }

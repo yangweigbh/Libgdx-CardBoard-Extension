@@ -14,9 +14,7 @@ add in your project build.gradle
 ```groovy
 repositories {
     .....your other repos
-    maven {
-        url  "http://dl.bintray.com/yangweigbh/maven" 
-    }
+    jcenter()
 }
 ```
 add dependency
@@ -26,8 +24,8 @@ compile "com.github.yangweigbh:libgdx-cardboard-core:0.2"
 
 > Notice: in order to use this extension, you should also include dependency for 
 ```groovy
-compile "com.badlogicgames.gdx:gdx-backend-android:1.5.4"
-compile "com.badlogicgames.gdx:gdx:1.5.4"
+compile "com.badlogicgames.gdx:gdx-backend-android:1.7.1"
+compile "com.badlogicgames.gdx:gdx:1.7.1"
 ```
 also don't forget put cardboard.jar, libprotobuf-java-2.6-nano.jar and the natives so into libs folder, **you can get all the file in the Demo project**
 
@@ -107,5 +105,9 @@ public void onDrawEye(Eye eye) {
     //use the camera to do your rendering
 }
 ```
+
+## Issues
+
+- the added method of CardBoardApplicationListener is always called behind ApplicationListener's callback method, need to implement the correct order
 
 ##Enjoy
