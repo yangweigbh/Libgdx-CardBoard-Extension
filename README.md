@@ -110,4 +110,8 @@ public void onDrawEye(Eye eye) {
 
 - the added method of CardBoardApplicationListener is always called behind ApplicationListener's callback method, need to implement the correct order
 
+##License
+
+All of the code in this repository is licensed under the Apache Software License 2.0
+
 ##Enjoy
