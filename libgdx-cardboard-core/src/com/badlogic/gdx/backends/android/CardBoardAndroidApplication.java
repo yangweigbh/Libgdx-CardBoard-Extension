@@ -509,7 +509,7 @@ public class CardBoardAndroidApplication extends CardboardActivity implements An
    }
 
    @Override
-   public Array<LifecycleListener> getLifecycleListeners () {
+   public SnapshotArray<LifecycleListener> getLifecycleListeners () {
       return lifecycleListeners;
    }
 
