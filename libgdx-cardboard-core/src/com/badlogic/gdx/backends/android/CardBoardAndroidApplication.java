@@ -16,8 +16,6 @@
 
 package com.badlogic.gdx.backends.android;
 
-import java.lang.reflect.Method;
-
 import android.annotation.TargetApi;
 import android.app.Activity;
 import android.content.Context;
@@ -47,8 +45,11 @@ import com.badlogic.gdx.utils.Array;
 import com.badlogic.gdx.utils.Clipboard;
 import com.badlogic.gdx.utils.GdxNativesLoader;
 import com.badlogic.gdx.utils.GdxRuntimeException;
+import com.badlogic.gdx.utils.SnapshotArray;
 import com.google.vrtoolkit.cardboard.CardboardActivity;
 import com.google.vrtoolkit.cardboard.CardboardView;
+
+import java.lang.reflect.Method;
 
 public class CardBoardAndroidApplication extends CardboardActivity implements AndroidApplicationBase {
 
@@ -66,7 +67,7 @@ public class CardBoardAndroidApplication extends CardboardActivity implements An
    protected boolean firstResume = true;
    protected final Array<Runnable> runnables = new Array<Runnable>();
    protected final Array<Runnable> executedRunnables = new Array<Runnable>();
-   protected final Array<LifecycleListener> lifecycleListeners = new Array<LifecycleListener>();
+   protected final SnapshotArray<LifecycleListener> lifecycleListeners = new SnapshotArray<LifecycleListener>();
    private final Array<AndroidEventListener> androidEventListeners = new Array<AndroidEventListener>();
    protected int logLevel = LOG_INFO;
    protected boolean useImmersiveMode = false;
@@ -127,7 +128,7 @@ public class CardBoardAndroidApplication extends CardboardActivity implements An
       }
       graphics = new CardBoardGraphics(this, config, config.resolutionStrategy == null ? new FillResolutionStrategy()
          : config.resolutionStrategy);
-      input = AndroidInputFactory.newAndroidInput(this, this, graphics.view, config);
+      input = AndroidInputFactory.newAndroidInput(this, this, graphics.getView(), config);
       audio = new AndroidAudio(this, config);
       this.getFilesDir(); // workaround for Android bug #10515463
       files = new AndroidFiles(this.getAssets(), this.getFilesDir().getAbsolutePath());
@@ -509,7 +510,7 @@ public class CardBoardAndroidApplication extends CardboardActivity implements An
    }
 
    @Override
-   public Array<LifecycleListener> getLifecycleListeners () {
+   public SnapshotArray<LifecycleListener> getLifecycleListeners () {
       return lifecycleListeners;
    }
 

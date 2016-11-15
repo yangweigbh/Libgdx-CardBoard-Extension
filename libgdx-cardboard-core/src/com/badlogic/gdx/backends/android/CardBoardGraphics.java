@@ -16,12 +16,6 @@
 
 package com.badlogic.gdx.backends.android;
 
-import javax.microedition.khronos.egl.EGL10;
-import javax.microedition.khronos.egl.EGLConfig;
-import javax.microedition.khronos.egl.EGLContext;
-import javax.microedition.khronos.egl.EGLDisplay;
-import javax.microedition.khronos.opengles.GL10;
-
 import android.opengl.GLSurfaceView;
 import android.opengl.GLSurfaceView.EGLConfigChooser;
 import android.util.DisplayMetrics;
@@ -37,6 +31,7 @@ import com.badlogic.gdx.backends.android.surfaceview.GLSurfaceViewAPI18;
 import com.badlogic.gdx.backends.android.surfaceview.GdxEglConfigChooser;
 import com.badlogic.gdx.backends.android.surfaceview.ResolutionStrategy;
 import com.badlogic.gdx.graphics.Cubemap;
+import com.badlogic.gdx.graphics.Cursor;
 import com.badlogic.gdx.graphics.GL20;
 import com.badlogic.gdx.graphics.GL30;
 import com.badlogic.gdx.graphics.Mesh;
@@ -50,14 +45,19 @@ import com.google.vrtoolkit.cardboard.CardboardView;
 import com.google.vrtoolkit.cardboard.Eye;
 import com.google.vrtoolkit.cardboard.HeadTransform;
 import com.google.vrtoolkit.cardboard.Viewport;
-import com.badlogic.gdx.graphics.Cursor;
+
+import javax.microedition.khronos.egl.EGL10;
+import javax.microedition.khronos.egl.EGLConfig;
+import javax.microedition.khronos.egl.EGLContext;
+import javax.microedition.khronos.egl.EGLDisplay;
+import javax.microedition.khronos.opengles.GL10;
 
 public class CardBoardGraphics implements Graphics, CardboardView.StereoRenderer{
 
    private static final String LOG_TAG = "AndroidGraphics";
 
    /** When {@link AndroidFragmentApplication#onPause()} or {@link AndroidApplication#onPause()} call
-    * {@link AndroidGraphics#pause()} they <b>MUST</b> enforce continuous rendering. If not, {@link #onDrawFrame(GL10)} will not
+    * {@link AndroidGraphics#pause()} they <b>MUST</b> enforce continuous rendering. If not, {@link #onDrawEye(Eye)} will not
     * be called in the GLThread while {@link #pause()} is sleeping in the Android UI Thread which will cause the
     * {@link AndroidGraphics#pause} variable never be set to false. As a result, the {@link AndroidGraphics#pause()} method will
     * kill the current process to avoid ANR */
@@ -69,7 +69,7 @@ public class CardBoardGraphics implements Graphics, CardboardView.StereoRenderer
    AndroidApplicationBase app;
    GL20 gl20;
    GL30 gl30;
-   EGLContext eglContext;
+   GLVersion glVersion;
    String extensions;
    private boolean disposed = false;
 
@@ -115,8 +115,7 @@ public class CardBoardGraphics implements Graphics, CardboardView.StereoRenderer
    }
 
    protected void preserveEGLContextOnPause () {
-      int sdkVersion = android.os.Build.VERSION.SDK_INT;
-      if ((sdkVersion >= 11 && view instanceof GLSurfaceView20) || view instanceof GLSurfaceView20API18) {
+      if ((android.os.Build.VERSION.SDK_INT >= 11 && view instanceof GLSurfaceView20) || view instanceof GLSurfaceView20API18) {
          try {
             view.getClass().getMethod("setPreserveEGLContextOnPause", boolean.class).invoke(view, true);
          } catch (Exception e) {
@@ -146,10 +145,6 @@ public class CardBoardGraphics implements Graphics, CardboardView.StereoRenderer
       }
    }
 
-   protected EGLConfigChooser getEglConfigChooser () {
-      return new GdxEglConfigChooser(config.r, config.g, config.b, config.a, config.depth, config.stencil, config.numSamples);
-   }
-
    private void updatePpi () {
       DisplayMetrics metrics = new DisplayMetrics();
       app.getWindowManager().getDefaultDisplay().getMetrics(metrics);
@@ -159,24 +154,6 @@ public class CardBoardGraphics implements Graphics, CardboardView.StereoRenderer
       ppcX = metrics.xdpi / 2.54f;
       ppcY = metrics.ydpi / 2.54f;
       density = metrics.density;
-   }
-
-   protected boolean checkGL20 () {
-      EGL10 egl = (EGL10)EGLContext.getEGL();
-      EGLDisplay display = egl.eglGetDisplay(EGL10.EGL_DEFAULT_DISPLAY);
-
-      int[] version = new int[2];
-      egl.eglInitialize(display, version);
-
-      int EGL_OPENGL_ES2_BIT = 4;
-      int[] configAttribs = {EGL10.EGL_RED_SIZE, 4, EGL10.EGL_GREEN_SIZE, 4, EGL10.EGL_BLUE_SIZE, 4, EGL10.EGL_RENDERABLE_TYPE,
-         EGL_OPENGL_ES2_BIT, EGL10.EGL_NONE};
-
-      EGLConfig[] configs = new EGLConfig[10];
-      int[] num_config = new int[1];
-      egl.eglChooseConfig(display, configAttribs, configs, 10, num_config);
-      egl.eglTerminate(display);
-      return num_config[0] > 0;
    }
 
    /** {@inheritDoc} */
@@ -197,22 +174,45 @@ public class CardBoardGraphics implements Graphics, CardboardView.StereoRenderer
       return width;
    }
 
+   /** {@inheritDoc} */
+   @Override
+   public int getBackBufferWidth () {
+      return width;
+   }
+
+   /** {@inheritDoc} */
+   @Override
+   public int getBackBufferHeight () {
+      return height;
+   }
+
    /** This instantiates the GL10, GL11 and GL20 instances. Includes the check for certain devices that pretend to support GL11 but
     * fuck up vertex buffer objects. This includes the pixelflinger which segfaults when buffers are deleted as well as the
-    * Motorola CLIQ and the Samsung Behold II.
-    *
-    * @param gl */
+    * Motorola CLIQ and the Samsung Behold II. */
    private void setupGL () {
-      if (gl20 != null) return;
+      if (config.useGL30) {
+         if (gl30 != null) return;
+         gl20 = gl30 = new AndroidGL30();
 
-      gl20 = new AndroidGL20();
+         Gdx.gl = gl30;
+         Gdx.gl20 = gl30;
+         Gdx.gl30 = gl30;
+      } else {
+         if (gl20 != null) return;
+         gl20 = new AndroidGL20();
 
-      Gdx.gl = gl20;
-      Gdx.gl20 = gl20;
+         Gdx.gl = gl20;
+         Gdx.gl20 = gl20;
+      }
 
-      Gdx.app.log(LOG_TAG, "OGL renderer: " + gl20.glGetString(GL10.GL_RENDERER));
-      Gdx.app.log(LOG_TAG, "OGL vendor: " + gl20.glGetString(GL10.GL_VENDOR));
-      Gdx.app.log(LOG_TAG, "OGL version: " + gl20.glGetString(GL10.GL_VERSION));
+      String versionString = Gdx.gl.glGetString(GL10.GL_VERSION);
+      String vendorString = Gdx.gl.glGetString(GL10.GL_VENDOR);
+      String rendererString = Gdx.gl.glGetString(GL10.GL_RENDERER);
+      glVersion = new GLVersion(Application.ApplicationType.Android, versionString, vendorString, rendererString);
+
+      Gdx.app.log(LOG_TAG, "OGL renderer: " + rendererString);
+      Gdx.app.log(LOG_TAG, "OGL vendor: " + vendorString);
+      Gdx.app.log(LOG_TAG, "OGL version: " + versionString);
       Gdx.app.log(LOG_TAG, "OGL extensions: " + gl20.glGetString(GL10.GL_EXTENSIONS));
    }
 
@@ -222,7 +222,7 @@ public class CardBoardGraphics implements Graphics, CardboardView.StereoRenderer
       this.height = height;
       updatePpi();
       gl20.glViewport(0, 0, this.width, this.height);
-      if (created == false) {
+      if (!created) {
          app.getApplicationListener().create();
          created = true;
          synchronized (this) {
@@ -234,7 +234,6 @@ public class CardBoardGraphics implements Graphics, CardboardView.StereoRenderer
 
    @Override
    public void onSurfaceCreated (EGLConfig config) {
-      eglContext = ((EGL10)EGLContext.getEGL()).eglGetCurrentContext();
       setupGL();
       logConfig(config);
       updatePpi();
@@ -311,7 +310,7 @@ public class CardBoardGraphics implements Graphics, CardboardView.StereoRenderer
                // ~500ms between taps.
                synch.wait(4000);
                if (pause) {
-                  // pause will never go false if onDrawFrame is never called by the GLThread
+                  // pause will never go false if onDrawEye is never called by the GLThread
                   // when entering this method, we MUST enforce continuous rendering
                   Gdx.app.error(LOG_TAG, "waiting for pause synchronization took too long; assuming deadlock and killing");
                   android.os.Process.killProcess(android.os.Process.myPid());
@@ -358,6 +357,12 @@ public class CardBoardGraphics implements Graphics, CardboardView.StereoRenderer
    @Override
    public GraphicsType getType () {
       return GraphicsType.AndroidGL;
+   }
+
+   /** {@inheritDoc} */
+   @Override
+   public GLVersion getGLVersion () {
+      return glVersion;
    }
 
    /** {@inheritDoc} */
@@ -419,33 +424,61 @@ public class CardBoardGraphics implements Graphics, CardboardView.StereoRenderer
    }
 
    @Override
-   public boolean setDisplayMode (DisplayMode displayMode) {
+   public boolean setFullscreenMode (DisplayMode displayMode) {
       return false;
+   }
+   
+   @Override
+   public Monitor getPrimaryMonitor() {
+      return new AndroidMonitor(0, 0, "Primary Monitor");
+   }
+ 
+   @Override
+   public Monitor getMonitor() {
+      return getPrimaryMonitor();
+   }
+ 
+   @Override
+   public Monitor[] getMonitors() {
+      return new Monitor[]{getPrimaryMonitor()};
+   }
+ 
+   @Override
+   public DisplayMode[] getDisplayModes(Monitor monitor) {
+      return getDisplayModes();
+   }
+ 
+   @Override
+   public DisplayMode getDisplayMode(Monitor monitor) {
+      return getDisplayMode();
    }
 
    @Override
    public DisplayMode[] getDisplayModes () {
-      return new DisplayMode[] {getDesktopDisplayMode()};
+      return new DisplayMode[] {getDisplayMode()};
    }
 
    @Override
-   public boolean setDisplayMode (int width, int height, boolean fullscreen) {
+   public boolean setWindowedMode (int width, int height) {
       return false;
    }
 
    @Override
    public void setTitle (String title) {
-
-   }
-
-   private class AndroidDisplayMode extends DisplayMode {
-      protected AndroidDisplayMode (int width, int height, int refreshRate, int bitsPerPixel) {
-         super(width, height, refreshRate, bitsPerPixel);
-      }
    }
 
    @Override
-   public DisplayMode getDesktopDisplayMode () {
+   public void setUndecorated(boolean undecorated) {
+      final int mask = (undecorated) ? 1 : 0;
+      app.getApplicationWindow().setFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN, mask);
+   }
+
+   @Override
+   public void setResizable(boolean resizable) {
+   }
+
+   @Override
+   public DisplayMode getDisplayMode () {
       DisplayMetrics metrics = new DisplayMetrics();
       app.getWindowManager().getDefaultDisplay().getMetrics(metrics);
       return new AndroidDisplayMode(metrics.widthPixels, metrics.heightPixels, 0, 0);
@@ -492,29 +525,14 @@ public class CardBoardGraphics implements Graphics, CardboardView.StereoRenderer
    }
 
    @Override
-   public boolean isFullscreen () {
-      return true;
-   }
-
-   @Override
-   public boolean isGL30Available () {
-      return gl30 != null;
-   }
-
-   @Override
-   public GL30 getGL30 () {
-      return gl30;
-   }
-
-   @Override
    public void onDrawEye (Eye eye) {
       if (!(app.getApplicationListener() instanceof CardBoardApplicationListener)) {
          throw new RuntimeException("should implement CardBoardApplicationListener");
       }
       if (!disposed) {
-        ((CardBoardApplicationListener) app.getApplicationListener())
+         ((CardBoardApplicationListener) app.getApplicationListener())
                 .onDrawEye(eye);
-    }
+      }
    }
 
    @Override
@@ -523,9 +541,9 @@ public class CardBoardGraphics implements Graphics, CardboardView.StereoRenderer
          throw new RuntimeException("should implement CardBoardApplicationListener");
       }
       if (!disposed) {
-        ((CardBoardApplicationListener) app.getApplicationListener())
+         ((CardBoardApplicationListener) app.getApplicationListener())
                 .onFinishFrame(viewport);
-    }
+      }
    }
 
    @Override
@@ -644,13 +662,43 @@ public class CardBoardGraphics implements Graphics, CardboardView.StereoRenderer
 
    }
 
-    @Override
-    public Cursor newCursor(Pixmap pixmap, int xHotspot, int yHotspot) {
-        return null;
-    }
+   @Override
+   public boolean isFullscreen() {
+      return true;
+   }
+ 
+   @Override
+   public boolean isGL30Available() {
+      return gl30 != null;
+   }
+ 
+   @Override
+   public GL30 getGL30() {
+      return gl30;
+   }
 
-    @Override
-    public void setCursor(Cursor cursor) {
+   @Override
+   public Cursor newCursor(Pixmap pixmap, int xHotspot, int yHotspot) {
+      return null;
+   }
 
-    }
+   @Override
+   public void setCursor(Cursor cursor) {
+   }
+
+   @Override
+   public void setSystemCursor(Cursor.SystemCursor systemCursor) {
+   }
+
+   private class AndroidDisplayMode extends DisplayMode {
+      protected AndroidDisplayMode(int width, int height, int refreshRate, int bitsPerPixel) {
+         super(width, height, refreshRate, bitsPerPixel);
+      }
+   }
+
+   private class AndroidMonitor extends Monitor {
+      public AndroidMonitor(int virtualX, int virtualY, String name) {
+         super(virtualX, virtualY, name);
+      }
+   }
 }
