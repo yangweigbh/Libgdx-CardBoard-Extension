@@ -5,7 +5,7 @@
   <groupId>com.github.yangweigbh</groupId>
   <artifactId>libgdx-cardboard-core</artifactId>
   <packaging>jar</packaging>
-  <version>0.2</version>
+  <version>0.3</version>
   <name>${project.groupId}:${project.artifactId}</name>
   <description>library help developing cardboard app based on libgdx</description>
   <url>https://github.com/yangweigbh/Libgdx-CardBoard-Extension</url>
@@ -36,12 +36,12 @@
     <dependency>
       <groupId>com.badlogicgames.gdx</groupId>
       <artifactId>gdx-backend-android</artifactId>
-      <version>1.5.4</version>
+      <version>1.9.4</version>
     </dependency>
     <dependency>
       <groupId>com.badlogicgames.gdx</groupId>
       <artifactId>gdx</artifactId>
-      <version>1.5.4</version>
+      <version>1.9.4</version>
     </dependency>
     <dependency>
       <groupId>com.google.android</groupId>

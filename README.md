@@ -19,13 +19,13 @@ repositories {
 ```
 add dependency
 ```groovy
-compile "com.github.yangweigbh:libgdx-cardboard-core:0.2"
+compile "com.github.yangweigbh:libgdx-cardboard-core:0.3"
 ```
 
 > Notice: in order to use this extension, you should also include dependency for 
 ```groovy
-compile "com.badlogicgames.gdx:gdx-backend-android:1.7.1"
-compile "com.badlogicgames.gdx:gdx:1.7.1"
+compile "com.badlogicgames.gdx:gdx-backend-android:1.9.4"
+compile "com.badlogicgames.gdx:gdx:1.9.4"
 ```
 also don't forget put cardboard.jar, libprotobuf-java-2.6-nano.jar and the natives so into libs folder, **you can get all the file in the Demo project**
 

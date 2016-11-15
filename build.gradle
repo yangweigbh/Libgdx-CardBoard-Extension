@@ -1,5 +1,5 @@
 ext {
-     gdxVersion='1.7.1'
+     gdxVersion='1.9.4'
 }
 
 buildscript {
@@ -25,7 +25,7 @@ project(":libgdx-cardboard-core") {
 	apply plugin: 'maven'
 
 	group = 'com.github.yangweigbh'
-	version = '0.2'
+	version = '0.3'
 
 	dependencies {
 	    compile "com.badlogicgames.gdx:gdx-backend-android:${gdxVersion}"
@@ -109,9 +109,9 @@ project(":libgdx-cardboard-core") {
 			licenses = ['Apache-2.0']
 			vcsUrl = 'https://github.com/yangweigbh/Libgdx-CardBoard-Extension.git'
 			version {
-				name = '0.2'
-				desc = 'libgdx cardboard extension 0.2'
-				vcsTag = '0.2.0'
+				name = '0.3'
+				desc = 'libgdx cardboard extension 0.3'
+				vcsTag = '0.3.0'
 			}
 		}
 	}
@@ -194,7 +194,7 @@ project(":Demo") {
 	    compile "com.badlogicgames.gdx:gdx-backend-android:${gdxVersion}"
 	    compile "com.badlogicgames.gdx:gdx:${gdxVersion}"
 	    compile fileTree(dir: 'libs', include: ['*.jar'])
-	    compile "com.github.yangweigbh:libgdx-cardboard-core:0.2"
+	    compile "com.github.yangweigbh:libgdx-cardboard-core:0.3"
 	}
 
 	tasks.withType(com.android.build.gradle.tasks.PackageApplication) { pkgTask ->
