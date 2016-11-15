@@ -17,11 +17,12 @@
 package com.badlogic.gdx.backends.android;
 
 import android.opengl.GLSurfaceView;
-import android.opengl.GLSurfaceView.EGLConfigChooser;
 import android.util.DisplayMetrics;
 import android.view.Display;
 import android.view.View;
+import android.view.WindowManager;
 
+import com.badlogic.gdx.Application;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Graphics;
 import com.badlogic.gdx.LifecycleListener;
@@ -38,6 +39,7 @@ import com.badlogic.gdx.graphics.Mesh;
 import com.badlogic.gdx.graphics.Pixmap;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.glutils.FrameBuffer;
+import com.badlogic.gdx.graphics.glutils.GLVersion;
 import com.badlogic.gdx.graphics.glutils.ShaderProgram;
 import com.badlogic.gdx.math.WindowedMean;
 import com.badlogic.gdx.utils.Array;
@@ -190,7 +192,14 @@ public class CardBoardGraphics implements Graphics, CardboardView.StereoRenderer
     * fuck up vertex buffer objects. This includes the pixelflinger which segfaults when buffers are deleted as well as the
     * Motorola CLIQ and the Samsung Behold II. */
    private void setupGL () {
-      if (config.useGL30) {
+      AndroidGL20 candidate = new AndroidGL20();
+
+      String versionString = candidate.glGetString(GL10.GL_VERSION);
+      String vendorString = candidate.glGetString(GL10.GL_VENDOR);
+      String rendererString = candidate.glGetString(GL10.GL_RENDERER);
+      glVersion = new GLVersion(Application.ApplicationType.Android, versionString, vendorString, rendererString);
+
+      if (config.useGL30 && glVersion.getMajorVersion() > 2) {
          if (gl30 != null) return;
          gl20 = gl30 = new AndroidGL30();
 
@@ -199,16 +208,11 @@ public class CardBoardGraphics implements Graphics, CardboardView.StereoRenderer
          Gdx.gl30 = gl30;
       } else {
          if (gl20 != null) return;
-         gl20 = new AndroidGL20();
+         gl20 = candidate;
 
-         Gdx.gl = gl20;
-         Gdx.gl20 = gl20;
+         Gdx.gl = candidate;
+         Gdx.gl20 = candidate;
       }
-
-      String versionString = Gdx.gl.glGetString(GL10.GL_VERSION);
-      String vendorString = Gdx.gl.glGetString(GL10.GL_VENDOR);
-      String rendererString = Gdx.gl.glGetString(GL10.GL_RENDERER);
-      glVersion = new GLVersion(Application.ApplicationType.Android, versionString, vendorString, rendererString);
 
       Gdx.app.log(LOG_TAG, "OGL renderer: " + rendererString);
       Gdx.app.log(LOG_TAG, "OGL vendor: " + vendorString);
