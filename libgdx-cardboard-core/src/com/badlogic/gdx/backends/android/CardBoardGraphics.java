@@ -190,7 +190,7 @@ public class CardBoardGraphics implements Graphics, CardboardView.StereoRenderer
     * fuck up vertex buffer objects. This includes the pixelflinger which segfaults when buffers are deleted as well as the
     * Motorola CLIQ and the Samsung Behold II. */
    private void setupGL () {
-      if (config.useGL30 && glVersion.getMajorVersion() > 2) {
+      if (config.useGL30) {
          if (gl30 != null) return;
          gl20 = gl30 = new AndroidGL30();
 
