@@ -23,13 +23,13 @@ import com.google.vr.sdk.base.Viewport;
 
 public interface CardBoardApplicationListener extends ApplicationListener{
 
-   public void onNewFrame(HeadTransform paramHeadTransform);
+   void onNewFrame(HeadTransform paramHeadTransform);
 
-   public void onDrawEye(Eye paramEye);
+   void onDrawEye(Eye paramEye);
 
-   public void onFinishFrame(Viewport paramViewport);
+   void onFinishFrame(Viewport paramViewport);
 
-   public void onRendererShutdown();
+   void onRendererShutdown();
 
-   public void onCardboardTrigger();
+   void onCardboardTrigger();
 }

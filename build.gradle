@@ -1,5 +1,5 @@
 ext {
-     gdxVersion='1.9.4'
+     gdxVersion='1.9.7'
 }
 
 buildscript {

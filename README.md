@@ -26,8 +26,8 @@ add dependency
 
 > Notice: in order to use this extension, you should also include dependency for 
 ```groovy
-compile "com.badlogicgames.gdx:gdx-backend-android:1.9.4"
-compile "com.badlogicgames.gdx:gdx:1.9.4"
+compile "com.badlogicgames.gdx:gdx-backend-android:1.9.7"
+compile "com.badlogicgames.gdx:gdx:1.9.7"
 compile "com.google.vr:sdk-base:1.80.0"
 ```
 also don't forget put the libgdx natives so into libs folder, **you can get all the file in the Demo project**
