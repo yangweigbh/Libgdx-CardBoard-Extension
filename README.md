@@ -21,7 +21,7 @@ allprojects {
 ```
 add dependency
 ```groovy
-	compile 'com.github.yangweigbh:Libgdx-CardBoard-Extension:0.3.0'
+	compile 'com.github.yangweigbh:Libgdx-CardBoard-Extension:0.4.0'
 ```
 
 > Notice: in order to use this extension, you should also include dependency for 
