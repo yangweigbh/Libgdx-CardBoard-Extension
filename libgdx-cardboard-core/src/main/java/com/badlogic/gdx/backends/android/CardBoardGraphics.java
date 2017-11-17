@@ -43,10 +43,10 @@ import com.badlogic.gdx.graphics.glutils.GLVersion;
 import com.badlogic.gdx.graphics.glutils.ShaderProgram;
 import com.badlogic.gdx.math.WindowedMean;
 import com.badlogic.gdx.utils.Array;
-import com.google.vrtoolkit.cardboard.CardboardView;
-import com.google.vrtoolkit.cardboard.Eye;
-import com.google.vrtoolkit.cardboard.HeadTransform;
-import com.google.vrtoolkit.cardboard.Viewport;
+import com.google.vr.sdk.base.Eye;
+import com.google.vr.sdk.base.GvrView;
+import com.google.vr.sdk.base.HeadTransform;
+import com.google.vr.sdk.base.Viewport;
 
 import javax.microedition.khronos.egl.EGL10;
 import javax.microedition.khronos.egl.EGLConfig;
@@ -54,7 +54,7 @@ import javax.microedition.khronos.egl.EGLContext;
 import javax.microedition.khronos.egl.EGLDisplay;
 import javax.microedition.khronos.opengles.GL10;
 
-public class CardBoardGraphics implements Graphics, CardboardView.StereoRenderer{
+public class CardBoardGraphics implements Graphics, GvrView.StereoRenderer{
 
    private static final String LOG_TAG = "AndroidGraphics";
 
@@ -127,8 +127,7 @@ public class CardBoardGraphics implements Graphics, CardboardView.StereoRenderer
    }
 
    protected View createCardBoardView(AndroidApplicationBase application) {
-      CardboardView cardboardView = new CardboardView(application.getContext());
-      cardboardView.setRestoreGLStateEnabled(false);
+      GvrView cardboardView = new GvrView(application.getContext());
       cardboardView.setRenderer(this);
       return cardboardView;
    }
@@ -431,27 +430,27 @@ public class CardBoardGraphics implements Graphics, CardboardView.StereoRenderer
    public boolean setFullscreenMode (DisplayMode displayMode) {
       return false;
    }
-   
+
    @Override
    public Monitor getPrimaryMonitor() {
       return new AndroidMonitor(0, 0, "Primary Monitor");
    }
- 
+
    @Override
    public Monitor getMonitor() {
       return getPrimaryMonitor();
    }
- 
+
    @Override
    public Monitor[] getMonitors() {
       return new Monitor[]{getPrimaryMonitor()};
    }
- 
+
    @Override
    public DisplayMode[] getDisplayModes(Monitor monitor) {
       return getDisplayModes();
    }
- 
+
    @Override
    public DisplayMode getDisplayMode(Monitor monitor) {
       return getDisplayMode();
@@ -670,12 +669,12 @@ public class CardBoardGraphics implements Graphics, CardboardView.StereoRenderer
    public boolean isFullscreen() {
       return true;
    }
- 
+
    @Override
    public boolean isGL30Available() {
       return gl30 != null;
    }
- 
+
    @Override
    public GL30 getGL30() {
       return gl30;

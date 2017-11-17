@@ -17,9 +17,9 @@
 package com.badlogic.gdx.backends.android;
 
 import com.badlogic.gdx.ApplicationListener;
-import com.google.vrtoolkit.cardboard.Eye;
-import com.google.vrtoolkit.cardboard.HeadTransform;
-import com.google.vrtoolkit.cardboard.Viewport;
+import com.google.vr.sdk.base.Eye;
+import com.google.vr.sdk.base.HeadTransform;
+import com.google.vr.sdk.base.Viewport;
 
 public interface CardBoardApplicationListener extends ApplicationListener{
 

@@ -46,12 +46,12 @@ import com.badlogic.gdx.utils.Clipboard;
 import com.badlogic.gdx.utils.GdxNativesLoader;
 import com.badlogic.gdx.utils.GdxRuntimeException;
 import com.badlogic.gdx.utils.SnapshotArray;
-import com.google.vrtoolkit.cardboard.CardboardActivity;
-import com.google.vrtoolkit.cardboard.CardboardView;
+import com.google.vr.sdk.base.GvrActivity;
+import com.google.vr.sdk.base.GvrView;
 
 import java.lang.reflect.Method;
 
-public class CardBoardAndroidApplication extends CardboardActivity implements AndroidApplicationBase {
+public class CardBoardAndroidApplication extends GvrActivity implements AndroidApplicationBase {
 
    static {
       GdxNativesLoader.load();
@@ -173,7 +173,7 @@ public class CardBoardAndroidApplication extends CardboardActivity implements An
          getWindow().setFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN, WindowManager.LayoutParams.FLAG_FULLSCREEN);
          getWindow().clearFlags(WindowManager.LayoutParams.FLAG_FORCE_NOT_FULLSCREEN);
          setContentView(graphics.getView(), createLayoutParams());
-         setCardboardView((CardboardView)graphics.getView());
+         setGvrView((GvrView) graphics.getView());
       }
 
       createWakeLock(config.useWakelock);

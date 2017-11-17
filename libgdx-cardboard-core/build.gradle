@@ -8,7 +8,7 @@ android {
 
 
     defaultConfig {
-        minSdkVersion 15
+        minSdkVersion 19
         targetSdkVersion 26
         versionCode 1
         versionName "1.0"
@@ -29,5 +29,6 @@ android {
 dependencies {
     compileOnly "com.badlogicgames.gdx:gdx-backend-android:${gdxVersion}"
     compileOnly "com.badlogicgames.gdx:gdx:${gdxVersion}"
-    compileOnly fileTree(dir: 'libs', include: ['*.jar'])
+    compileOnly 'com.google.vr:sdk-base:1.80.0'
+    implementation fileTree(dir: 'libs', include: ['*.jar'])
 }

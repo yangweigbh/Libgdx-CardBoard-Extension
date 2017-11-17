@@ -5,8 +5,8 @@ android {
 
     defaultConfig {
     	applicationId "com.github.yangweigbh.libgdxcardboarddemo"
-    	
-        minSdkVersion 15
+
+        minSdkVersion 19
         targetSdkVersion 23
         versionCode 1
         versionName "1.0"
@@ -32,6 +32,7 @@ android {
 dependencies {
     implementation "com.badlogicgames.gdx:gdx-backend-android:${gdxVersion}"
     implementation "com.badlogicgames.gdx:gdx:${gdxVersion}"
+    implementation "com.google.vr:sdk-base:1.80.0"
     implementation fileTree(dir: 'libs', include: ['*.jar'])
     implementation project(":libgdx-cardboard-core")
 }
