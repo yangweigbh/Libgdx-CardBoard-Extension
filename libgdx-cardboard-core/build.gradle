@@ -1,0 +1,33 @@
+apply plugin: 'com.android.library'
+apply plugin: 'com.github.dcendents.android-maven' // ADD THIS
+
+group='com.github.yangweigbh'
+
+android {
+    compileSdkVersion 26
+
+
+    defaultConfig {
+        minSdkVersion 15
+        targetSdkVersion 26
+        versionCode 1
+        versionName "1.0"
+
+        testInstrumentationRunner "android.support.test.runner.AndroidJUnitRunner"
+
+    }
+
+    buildTypes {
+        release {
+            minifyEnabled false
+            proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
+        }
+    }
+
+}
+
+dependencies {
+    compileOnly "com.badlogicgames.gdx:gdx-backend-android:${gdxVersion}"
+    compileOnly "com.badlogicgames.gdx:gdx:${gdxVersion}"
+    compileOnly fileTree(dir: 'libs', include: ['*.jar'])
+}
