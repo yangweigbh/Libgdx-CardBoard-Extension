@@ -12,22 +12,25 @@ the cardboard sdk can only use OpenGL API to development app which is quite low 
 add in your project build.gradle
 
 ```groovy
-repositories {
-    .....your other repos
-    jcenter()
+allprojects {
+	repositories {
+		...
+		maven { url 'https://jitpack.io' }
+	}
 }
 ```
 add dependency
 ```groovy
-compile "com.github.yangweigbh:libgdx-cardboard-core:0.3"
+	compile 'com.github.yangweigbh:Libgdx-CardBoard-Extension:0.3.0'
 ```
 
 > Notice: in order to use this extension, you should also include dependency for 
 ```groovy
 compile "com.badlogicgames.gdx:gdx-backend-android:1.9.4"
 compile "com.badlogicgames.gdx:gdx:1.9.4"
+compile "com.google.vr:sdk-base:1.80.0"
 ```
-also don't forget put cardboard.jar, libprotobuf-java-2.6-nano.jar and the natives so into libs folder, **you can get all the file in the Demo project**
+also don't forget put the libgdx natives so into libs folder, **you can get all the file in the Demo project**
 
 >![](snapshot2.jpg)
 
