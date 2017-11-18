@@ -2,6 +2,9 @@
 
 #### a libgdx extension for cardboard app deveplopment
 
+[![](https://jitpack.io/v/yangweigbh/Libgdx-CardBoard-Extension.svg)](https://jitpack.io/#yangweigbh/Libgdx-CardBoard-Extension)
+
+## Now support Latest libgdx 1.9.7
 
 the cardboard sdk can only use OpenGL API to development app which is quite low efficiency. Now you can you use libgdx to develop CardBoard App.
 
