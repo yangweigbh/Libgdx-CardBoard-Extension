@@ -48,7 +48,7 @@ create your activity inherit from CardBoardAndroidApplication and implement Card
 in your activity `onCreate` method, do libgdx initialization like normal libgdx app
 
 ```java
-	@Override
+    @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         AndroidApplicationConfiguration config = new AndroidApplicationConfiguration();
