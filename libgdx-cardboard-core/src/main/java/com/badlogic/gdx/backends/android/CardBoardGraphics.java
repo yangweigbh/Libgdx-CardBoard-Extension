@@ -17,8 +17,10 @@
 package com.badlogic.gdx.backends.android;
 
 import android.opengl.GLSurfaceView;
+import android.os.Build;
 import android.util.DisplayMetrics;
 import android.view.Display;
+import android.view.DisplayCutout;
 import android.view.View;
 import android.view.WindowManager;
 
@@ -27,8 +29,6 @@ import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Graphics;
 import com.badlogic.gdx.LifecycleListener;
 import com.badlogic.gdx.backends.android.surfaceview.GLSurfaceView20;
-import com.badlogic.gdx.backends.android.surfaceview.GLSurfaceView20API18;
-import com.badlogic.gdx.backends.android.surfaceview.GLSurfaceViewAPI18;
 import com.badlogic.gdx.backends.android.surfaceview.GdxEglConfigChooser;
 import com.badlogic.gdx.backends.android.surfaceview.ResolutionStrategy;
 import com.badlogic.gdx.graphics.Cubemap;
@@ -68,6 +68,7 @@ public class CardBoardGraphics implements Graphics, GvrView.StereoRenderer{
    final View view;
    int width;
    int height;
+   int safeInsetLeft, safeInsetTop, safeInsetBottom, safeInsetRight;
    AndroidApplicationBase app;
    GL20 gl20;
    GL30 gl30;
@@ -100,13 +101,12 @@ public class CardBoardGraphics implements Graphics, GvrView.StereoRenderer{
    private boolean isContinuous = true;
 
    public CardBoardGraphics (AndroidApplicationBase application, AndroidApplicationConfiguration config,
-      ResolutionStrategy resolutionStrategy) {
+                             ResolutionStrategy resolutionStrategy) {
       this(application, config, resolutionStrategy, true);
    }
 
    public CardBoardGraphics (AndroidApplicationBase application, AndroidApplicationConfiguration config,
-      ResolutionStrategy resolutionStrategy, boolean focusableView) {
-      AndroidGL20.init();
+                             ResolutionStrategy resolutionStrategy, boolean focusableView) {
       this.config = config;
       this.app = application;
       view = createCardBoardView(application);
@@ -118,7 +118,7 @@ public class CardBoardGraphics implements Graphics, GvrView.StereoRenderer{
    }
 
    protected void preserveEGLContextOnPause () {
-      if ((android.os.Build.VERSION.SDK_INT >= 11 && view instanceof GLSurfaceView20) || view instanceof GLSurfaceView20API18) {
+      if (view instanceof GLSurfaceView20) {
          try {
             view.getClass().getMethod("setPreserveEGLContextOnPause", boolean.class).invoke(view, true);
          } catch (Exception e) {
@@ -135,14 +135,12 @@ public class CardBoardGraphics implements Graphics, GvrView.StereoRenderer{
 
    public void onPauseGLSurfaceView () {
       if (view != null) {
-         if (view instanceof GLSurfaceViewAPI18) ((GLSurfaceViewAPI18)view).onPause();
          if (view instanceof GLSurfaceView) ((GLSurfaceView)view).onPause();
       }
    }
 
    public void onResumeGLSurfaceView () {
       if (view != null) {
-         if (view instanceof GLSurfaceViewAPI18) ((GLSurfaceViewAPI18)view).onResume();
          if (view instanceof GLSurfaceView) ((GLSurfaceView)view).onResume();
       }
    }
@@ -225,6 +223,7 @@ public class CardBoardGraphics implements Graphics, GvrView.StereoRenderer{
       this.width = width;
       this.height = height;
       updatePpi();
+      updateSafeAreaInsets();
       gl20.glViewport(0, 0, this.width, this.height);
       if (!created) {
          app.getApplicationListener().create();
@@ -241,6 +240,7 @@ public class CardBoardGraphics implements Graphics, GvrView.StereoRenderer{
       setupGL();
       logConfig(config);
       updatePpi();
+      updateSafeAreaInsets();
 
       Mesh.invalidateAllMeshes(app);
       Texture.invalidateAllTextures(app);
@@ -269,7 +269,7 @@ public class CardBoardGraphics implements Graphics, GvrView.StereoRenderer{
       int d = getAttrib(egl, display, config, EGL10.EGL_DEPTH_SIZE, 0);
       int s = getAttrib(egl, display, config, EGL10.EGL_STENCIL_SIZE, 0);
       int samples = Math.max(getAttrib(egl, display, config, EGL10.EGL_SAMPLES, 0),
-         getAttrib(egl, display, config, GdxEglConfigChooser.EGL_COVERAGE_SAMPLES_NV, 0));
+              getAttrib(egl, display, config, GdxEglConfigChooser.EGL_COVERAGE_SAMPLES_NV, 0));
       boolean coverageSample = getAttrib(egl, display, config, GdxEglConfigChooser.EGL_COVERAGE_SAMPLES_NV, 0) != 0;
 
       Gdx.app.log(LOG_TAG, "framebuffer: (" + r + ", " + g + ", " + b + ", " + a + ")");
@@ -462,6 +462,48 @@ public class CardBoardGraphics implements Graphics, GvrView.StereoRenderer{
       return new DisplayMode[] {getDisplayMode()};
    }
 
+   protected void updateSafeAreaInsets() {
+      safeInsetLeft = 0;
+      safeInsetTop = 0;
+      safeInsetRight = 0;
+      safeInsetBottom = 0;
+
+      if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.P) {
+         try {
+            DisplayCutout displayCutout = app.getApplicationWindow().getDecorView().getRootWindowInsets().getDisplayCutout();
+            if (displayCutout != null) {
+               safeInsetRight = displayCutout.getSafeInsetRight();
+               safeInsetBottom = displayCutout.getSafeInsetBottom();
+               safeInsetTop = displayCutout.getSafeInsetTop();
+               safeInsetLeft = displayCutout.getSafeInsetLeft();
+            }
+         } // Some Application implementations (such as Live Wallpapers) do not implement Application#getApplicationWindow()
+         catch (UnsupportedOperationException e) {
+            Gdx.app.log("AndroidGraphics", "Unable to get safe area insets");
+         }
+      }
+   }
+
+   @Override
+   public int getSafeInsetLeft() {
+      return safeInsetLeft;
+   }
+
+   @Override
+   public int getSafeInsetTop() {
+      return safeInsetTop;
+   }
+
+   @Override
+   public int getSafeInsetBottom() {
+      return safeInsetBottom;
+   }
+
+   @Override
+   public int getSafeInsetRight() {
+      return safeInsetRight;
+   }
+
    @Override
    public boolean setWindowedMode (int width, int height) {
       return false;
@@ -509,7 +551,6 @@ public class CardBoardGraphics implements Graphics, GvrView.StereoRenderer{
          // ignore setContinuousRendering(false) while pausing
          this.isContinuous = enforceContinuousRendering || isContinuous;
          int renderMode = this.isContinuous ? GLSurfaceView.RENDERMODE_CONTINUOUSLY : GLSurfaceView.RENDERMODE_WHEN_DIRTY;
-         if (view instanceof GLSurfaceViewAPI18) ((GLSurfaceViewAPI18)view).setRenderMode(renderMode);
          if (view instanceof GLSurfaceView) ((GLSurfaceView)view).setRenderMode(renderMode);
          mean.clear();
       }
@@ -523,7 +564,6 @@ public class CardBoardGraphics implements Graphics, GvrView.StereoRenderer{
    @Override
    public void requestRendering () {
       if (view != null) {
-         if (view instanceof GLSurfaceViewAPI18) ((GLSurfaceViewAPI18)view).requestRender();
          if (view instanceof GLSurfaceView) ((GLSurfaceView)view).requestRender();
       }
    }
@@ -535,7 +575,7 @@ public class CardBoardGraphics implements Graphics, GvrView.StereoRenderer{
       }
       if (!disposed) {
          ((CardBoardApplicationListener) app.getApplicationListener())
-                .onDrawEye(eye);
+                 .onDrawEye(eye);
       }
    }
 
@@ -546,7 +586,7 @@ public class CardBoardGraphics implements Graphics, GvrView.StereoRenderer{
       }
       if (!disposed) {
          ((CardBoardApplicationListener) app.getApplicationListener())
-                .onFinishFrame(viewport);
+                 .onFinishFrame(viewport);
       }
    }
 
@@ -652,8 +692,8 @@ public class CardBoardGraphics implements Graphics, GvrView.StereoRenderer{
          throw new RuntimeException("should implement CardBoardApplicationListener");
       }
       if (!disposed) {
-        ((CardBoardApplicationListener) app.getApplicationListener())
-                .onNewFrame(headTransform);
+         ((CardBoardApplicationListener) app.getApplicationListener())
+                 .onNewFrame(headTransform);
       }
    }
 

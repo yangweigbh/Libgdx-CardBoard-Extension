@@ -25,13 +25,13 @@ import android.os.Build;
 import android.os.Bundle;
 import android.os.Debug;
 import android.os.Handler;
-import android.util.Log;
 import android.view.Gravity;
 import android.view.View;
 import android.view.Window;
 import android.view.WindowManager;
 import android.widget.FrameLayout;
 
+import com.badlogic.gdx.Application;
 import com.badlogic.gdx.ApplicationListener;
 import com.badlogic.gdx.ApplicationLogger;
 import com.badlogic.gdx.Audio;
@@ -130,12 +130,12 @@ public class CardBoardAndroidApplication extends GvrActivity implements AndroidA
       }
       setApplicationLogger(new AndroidApplicationLogger());
       graphics = new CardBoardGraphics(this, config, config.resolutionStrategy == null ? new FillResolutionStrategy()
-         : config.resolutionStrategy);
-      input = AndroidInputFactory.newAndroidInput(this, this, graphics.getView(), config);
-      audio = new AndroidAudio(this, config);
+              : config.resolutionStrategy);
+      input = createInput(this, this, graphics.view, config);
+      audio = createAudio(this, config);
       this.getFilesDir(); // workaround for Android bug #10515463
       files = new AndroidFiles(this.getAssets(), this.getFilesDir().getAbsolutePath());
-      net = new AndroidNet(this);
+      net = new AndroidNet(this, config);
       this.listener = listener;
       this.handler = new Handler();
       this.useImmersiveMode = config.useImmersiveMode;
@@ -195,16 +195,16 @@ public class CardBoardAndroidApplication extends GvrActivity implements AndroidA
    }
 
    @Override
-    public void onCardboardTrigger() {
-       if (!(listener instanceof CardBoardApplicationListener)) {
-           throw new RuntimeException("should implement CardBoardApplicationListener");
-        }
-        ((CardBoardApplicationListener)listener).onCardboardTrigger();
-    }
+   public void onCardboardTrigger() {
+      if (!(listener instanceof CardBoardApplicationListener)) {
+         throw new RuntimeException("should implement CardBoardApplicationListener");
+      }
+      ((CardBoardApplicationListener)listener).onCardboardTrigger();
+   }
 
    protected FrameLayout.LayoutParams createLayoutParams () {
       FrameLayout.LayoutParams layoutParams = new FrameLayout.LayoutParams(android.view.ViewGroup.LayoutParams.MATCH_PARENT,
-         android.view.ViewGroup.LayoutParams.MATCH_PARENT);
+              android.view.ViewGroup.LayoutParams.MATCH_PARENT);
       layoutParams.gravity = Gravity.CENTER;
       return layoutParams;
    }
@@ -254,8 +254,8 @@ public class CardBoardAndroidApplication extends GvrActivity implements AndroidA
       try {
          Method m = View.class.getMethod("setSystemUiVisibility", int.class);
          int code = View.SYSTEM_UI_FLAG_LAYOUT_STABLE | View.SYSTEM_UI_FLAG_LAYOUT_HIDE_NAVIGATION
-            | View.SYSTEM_UI_FLAG_LAYOUT_FULLSCREEN | View.SYSTEM_UI_FLAG_HIDE_NAVIGATION | View.SYSTEM_UI_FLAG_FULLSCREEN
-            | View.SYSTEM_UI_FLAG_IMMERSIVE_STICKY;
+                 | View.SYSTEM_UI_FLAG_LAYOUT_FULLSCREEN | View.SYSTEM_UI_FLAG_HIDE_NAVIGATION | View.SYSTEM_UI_FLAG_FULLSCREEN
+                 | View.SYSTEM_UI_FLAG_IMMERSIVE_STICKY;
          m.invoke(view, code);
       } catch (Exception e) {
          log("AndroidApplication", "Can't set immersive mode", e);
@@ -400,7 +400,7 @@ public class CardBoardAndroidApplication extends GvrActivity implements AndroidA
       super.onConfigurationChanged(config);
       boolean keyboardAvailable = false;
       if (config.hardKeyboardHidden == Configuration.HARDKEYBOARDHIDDEN_NO) keyboardAvailable = true;
-      input.keyboardAvailable = keyboardAvailable;
+      input.setKeyboardAvailable(keyboardAvailable);
    }
 
    @Override
@@ -535,6 +535,16 @@ public class CardBoardAndroidApplication extends GvrActivity implements AndroidA
    @Override
    public Handler getHandler () {
       return this.handler;
+   }
+
+   @Override
+   public AndroidAudio createAudio (Context context, AndroidApplicationConfiguration config) {
+      return new DefaultAndroidAudio(context, config);
+   }
+
+   @Override
+   public AndroidInput createInput (Application activity, Context context, Object view, AndroidApplicationConfiguration config) {
+      return new DefaultAndroidInput(this, this, graphics.view, config);
    }
 
 }
