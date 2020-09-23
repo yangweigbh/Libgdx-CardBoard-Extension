@@ -32,7 +32,7 @@ android {
 dependencies {
     implementation "com.badlogicgames.gdx:gdx-backend-android:${gdxVersion}"
     implementation "com.badlogicgames.gdx:gdx:${gdxVersion}"
-    implementation "com.google.vr:sdk-base:1.80.0"
+    implementation "com.google.vr:sdk-base:1.190.0"
     implementation fileTree(dir: 'libs', include: ['*.jar'])
     implementation project(":libgdx-cardboard-core")
 }
