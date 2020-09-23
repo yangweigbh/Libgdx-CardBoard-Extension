@@ -24,14 +24,14 @@ allprojects {
 ```
 add dependency
 ```groovy
-	compile 'com.github.yangweigbh:Libgdx-CardBoard-Extension:0.4.0'
+implementation 'com.github.yangweigbh:Libgdx-CardBoard-Extension:0.5.0'
 ```
 
 > Notice: in order to use this extension, you should also include dependency for 
 ```groovy
-compile "com.badlogicgames.gdx:gdx-backend-android:1.9.11"
-compile "com.badlogicgames.gdx:gdx:1.9.11"
-compile "com.google.vr:sdk-base:1.80.0"
+implementation "com.badlogicgames.gdx:gdx-backend-android:1.9.11"
+implementation "com.badlogicgames.gdx:gdx:1.9.11"
+implementation "com.google.vr:sdk-base:1.80.0"
 ```
 also don't forget put the libgdx natives so into libs folder, **you can get all the file in the Demo project**
 
