@@ -1,10 +1,10 @@
 # Libgdx-CardBoard-Extension
 
-#### a libgdx extension for cardboard app deveplopment
+#### A libgdx extension for cardboard app deveplopment
 
 [![](https://jitpack.io/v/yangweigbh/Libgdx-CardBoard-Extension.svg)](https://jitpack.io/#yangweigbh/Libgdx-CardBoard-Extension)
 
-## Now support Latest libgdx 1.9.7
+## Now support Latest libgdx 1.9.11
 
 the cardboard sdk can only use OpenGL API to development app which is quite low efficiency. Now you can you use libgdx to develop CardBoard App.
 
@@ -29,8 +29,8 @@ add dependency
 
 > Notice: in order to use this extension, you should also include dependency for 
 ```groovy
-compile "com.badlogicgames.gdx:gdx-backend-android:1.9.7"
-compile "com.badlogicgames.gdx:gdx:1.9.7"
+compile "com.badlogicgames.gdx:gdx-backend-android:1.9.11"
+compile "com.badlogicgames.gdx:gdx:1.9.11"
 compile "com.google.vr:sdk-base:1.80.0"
 ```
 also don't forget put the libgdx natives so into libs folder, **you can get all the file in the Demo project**

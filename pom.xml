@@ -9,7 +9,7 @@
 	<name>libgdx cardboard extension</name>
 
 	<properties>
-		<gdx.version>1.5.4</gdx.version>
+		<gdx.version>1.9.11</gdx.version>
 		<android.version>4.4</android.version>
 		<project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
 	</properties>
