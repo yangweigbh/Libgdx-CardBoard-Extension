@@ -31,7 +31,7 @@ implementation 'com.github.yangweigbh:Libgdx-CardBoard-Extension:0.5.0'
 ```groovy
 implementation "com.badlogicgames.gdx:gdx-backend-android:1.9.11"
 implementation "com.badlogicgames.gdx:gdx:1.9.11"
-implementation "com.google.vr:sdk-base:1.80.0"
+implementation "com.google.vr:sdk-base:1.190.0"
 ```
 also don't forget put the libgdx natives so into libs folder, **you can get all the file in the Demo project**
 
